@@ -1,5 +1,7 @@
 package tests;
 
+import java.lang.reflect.Method;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -12,8 +14,9 @@ public class TravelInsuranceTests extends BaseTest {
 	private TravelInsurancePage travelInsurance;
 
 	@BeforeMethod
-	void setPage() {
+	void setPage(Method method) {
 		travelInsurance = new TravelInsurancePage(driver);
+		createTestWithMethodName(method, browserName);
 
 	}
 
@@ -25,47 +28,110 @@ public class TravelInsuranceTests extends BaseTest {
 
 	@Test(priority = 2, dependsOnMethods = {"testVisitPolicyBazaar"})
 	public void testClickTravelInsuranceLink() {
-//		policyBazaarPage.visitPolicyBazaar();
-		travelInsurance.clickTravelInsuranceLink();
-		// Add assertions or further test steps as needed
+		
+		try {
+			travelInsurance.clickTravelInsuranceLink();
+			test.pass("Successfully clicked travel insurance link");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			test.fail(e);
+		}
+	
 	}
 
 	@Test(priority = 3, dependsOnMethods = {"testClickTravelInsuranceLink"})
 	public void testClickStudentTravelInsuranceLink() throws InterruptedException {
-		travelInsurance.clickOnStudentTravelInsurance();
+		try {
+			travelInsurance.clickOnStudentTravelInsurance();
+			test.pass("Successfully clicked Student Travel Insurance");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			test.fail(e);
+		}
 	}
 
 	@Test(priority = 4,dependsOnMethods = "testClickStudentTravelInsuranceLink")
 	public void testSelectDestination() {
-		travelInsurance.enterDestination();
+		try {
+			travelInsurance.enterDestination();
+			test.pass("Successfully selected destination");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			test.fail(e);
+		}
 		
 	}
 	
 	@Test(priority = 5,dependsOnMethods = "testSelectDestination")
 	public void testChooseDates() throws InterruptedException {
-		travelInsurance.chooseDate();
+		try {
+			travelInsurance.chooseDate();
+			test.pass("Successfully chosen dates");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			test.fail(e);
+		}
 	}
 	@Test(priority = 6)
 	public void testFillTravellerInfo() {
-		travelInsurance.fillTravellerInfo();
+		try {
+			travelInsurance.fillTravellerInfo();
+			test.pass("Sucessfully filled traveller info");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			test.fail(e);
+		}
 	}
 	@Test(priority = 7)
 	public void testChooseHealthInfo() {
-		travelInsurance.chooseHealthInfo();
+		try {
+			travelInsurance.chooseHealthInfo();
+			test.pass("Successfully selected health info");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			test.fail(e);
+		}
 	}
 	@Test(priority = 8)
 	public void testFillContactInfo() {
-		travelInsurance.fillContactInfo();
+		try {
+			travelInsurance.fillContactInfo();
+			test.pass("Successfully filled contact info");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			test.fail(e);
+		}
 	}
 	
 	@Test(priority = 9)
 	public void testSortPrices() {
-		travelInsurance.sortPrices();
+		try {
+			travelInsurance.sortPrices();
+			test.pass("Sorted prices successfully");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			test.fail(e);
+		}
 	}
 	
 	@Test(priority = 10)
 	public void printLowestPrices() throws Exception {
-		travelInsurance.getLowestPrices();
+		try {
+			travelInsurance.getLowestPrices();
+			test.pass("Printed 3 lowest prices to excel");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			test.fail(e);
+		}
 	}
 
 }

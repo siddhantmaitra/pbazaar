@@ -59,11 +59,19 @@ public class TravelInsurancePage extends BaseClass {
 	@FindBy(className = "process-button")
 	private WebElement continueBtn;
 
-	@FindBy(xpath = "//div[text()='20']")
-	private WebElement startDay;
+//	@FindBy(xpath = "//div[text()='20']")
+//	private WebElement startDay;
+//
+//	@FindBy(xpath = "//div[text()='26']")
+//	private WebElement endDay;
+	
+	@FindBy(xpath = "(//div[text()='1'])[3]")
+    private WebElement startDay;
 
-	@FindBy(xpath = "//div[text()='26']")
-	private WebElement endDay;
+ 
+
+    @FindBy(xpath = "(//div[text()='10'])[1]")
+    private WebElement endDay;
 
 	@FindBy(id = "startdate")
 	private WebElement datePicker;
@@ -100,6 +108,9 @@ public class TravelInsurancePage extends BaseClass {
 	
 	@FindBy(xpath = "//p[@class=\"wrap-space \"]/child::span")
 	private List<WebElement> insurancePrices;
+	
+	@FindBy(xpath = "(//div[@class='grid'])[1]")
+	private WebElement banner;
 
 	
 	public void visitPolicyBazaar() throws InterruptedException {
@@ -132,18 +143,26 @@ public class TravelInsurancePage extends BaseClass {
 		wait.until(ExpectedConditions.elementToBeClickable(bottomDivClose)).click();
 		// rescroll to adjust
 		js.executeScript("arguments[0].scrollIntoView(true);", scrollElement);
+		Thread.sleep(2000);
 		wait.until(ExpectedConditions.elementToBeClickable(studentTravelInsuranceLink));
 		
 		studentTravelInsuranceLink.click();
 	}
 
 	public void enterDestination() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		destinationInput.clear();
 		
 
 		destinationInput.sendKeys(destination);
 		destinationInput.sendKeys(Keys.ENTER);
-		continueBtn.click();
+		
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		
+//		js.executeScript("arguments[0].scrollIntoView(true);", banner);
+		
+		wait.until(ExpectedConditions.elementToBeClickable(continueBtn)).click();
+//		continueBtn.click();
 	}
 
 	public void chooseDate() throws InterruptedException {
