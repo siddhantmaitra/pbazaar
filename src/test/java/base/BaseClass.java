@@ -33,7 +33,9 @@ public class BaseClass {
 		browserName = browser;
 		if (browser.equalsIgnoreCase("chrome")) {
 
-			WebDriverManager.chromedriver().setup();
+//			WebDriverManager.chromedriver().setup();
+			System.setProperty("webdriver.chrome.driver", "C:\\Users\\2266897\\Downloads\\chromedriver_win32\\chromedriver.exe");
+
 //			System.setProperty("webdriver.chrome.driver", "C:\\Users\\2266897\\Documents\\chromedrivers\\chromedriver.exe");
 			driver = new ChromeDriver();
 		} else if (browser.equalsIgnoreCase("edge")) {
