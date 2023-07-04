@@ -9,14 +9,13 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import com.aventstack.extentreports.ExtentReports;
-
 import base.BaseClass;
+import utils.ConfigReader;
 import utils.ExcelUtil;
-import utils.ExtentReportManager;
 
 
 public class HealthInsurancePage extends BaseClass {
+	final String healthSheet = ConfigReader.prop.getProperty("healthSheet");
 	
 	public HealthInsurancePage(WebDriver driver) {
 //		this.driver = driver;
@@ -45,7 +44,7 @@ public class HealthInsurancePage extends BaseClass {
 			e.printStackTrace();
 		}
 		try {
-			ExcelUtil.selectSheetName("HealthInsurance");
+			ExcelUtil.selectSheetName(healthSheet);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

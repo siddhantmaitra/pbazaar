@@ -2,7 +2,6 @@ package pages;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -16,12 +15,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import base.BaseClass;
 import utils.ConfigReader;
 import utils.ExcelUtil;
+import utils.JsonReader;
 
 public class CarInsurancePage extends BaseClass {
 
-	final String mobileNo = ConfigReader.prop.getProperty("mobileNo");
-	final String invalidEmail = ConfigReader.prop.getProperty("invalidEmail");
-	final String buyerName = ConfigReader.prop.getProperty("buyerName");
+	final String mobileNo = JsonReader.data.get("mobileNo");
+	final String invalidEmail = JsonReader.data.get("invalidEmail");
+	final String buyerName = JsonReader.data.get("buyerName");
+
+	final String carSheet = ConfigReader.prop.getProperty("carSheet");
 
 	public CarInsurancePage(WebDriver driver) {
 
@@ -47,7 +49,6 @@ public class CarInsurancePage extends BaseClass {
 	private WebElement carBrand;
 
 	@FindBy(xpath = "//span[text()='SWIFT']")
-//	@FindBy(xpath="//label[@data-id='230']")
 	private WebElement carModel;
 
 	@FindBy(xpath = "//span[text()='Petrol']")
@@ -56,7 +57,6 @@ public class CarInsurancePage extends BaseClass {
 	@FindBy(xpath = "//span[text()='VXI NEW']")
 	private WebElement variant;
 
-//	@FindBy(xpath="//span[text()='2022']")
 	@FindBy(xpath = "//div[@class='brand-new-car-button']")
 	private WebElement registrationYear;
 
@@ -73,7 +73,7 @@ public class CarInsurancePage extends BaseClass {
 	private WebElement errorMsg;
 
 	public void visitPolicyBazaar() {
-		
+
 		driver.get("https://www.policybazaar.com");
 	}
 
@@ -92,56 +92,84 @@ public class CarInsurancePage extends BaseClass {
 
 	}
 
+	/**
+	 * Selects city from form
+	 */
 	public void selectCity() {
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+		cm.pauseForSecs(2);
 		wait.until(ExpectedConditions.elementToBeClickable(selectCity)).click();
 
 	}
 
+	/**
+	 * Selects DL choice
+	 */
 	public void selectDL1() {
 		selectDL1.click();
 
 	}
 
+	/**
+	 * Selects car brand
+	 */
 	public void selectCarBrand() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		wait.until(ExpectedConditions.elementToBeClickable(carBrand)).click();
 
 	}
-
+	
+	/**
+	 * Selects car model
+	 */
 	public void selectCarModel() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		wait.until(ExpectedConditions.elementToBeClickable(carModel)).click();
 
 	}
-
+	
+	/**
+	 * Selects fuel type for the car
+	 */
 	public void selectFuelType() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		wait.until(ExpectedConditions.elementToBeClickable(fuelType)).click();
 
 	}
-
-	public void selectVariant() throws InterruptedException {
+	
+	/**
+	 * Selects car variant
+	 */
+	public void selectVariant() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		wait.until(ExpectedConditions.elementToBeClickable(variant)).click();
 
-		Thread.sleep(2000);
+		cm.pauseForSecs(2);
 
 	}
-
+	
+	/**
+	 * Selects registration year of the car 
+	 */
 	public void selectRegistrationYear() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
 		wait.until(ExpectedConditions.elementToBeClickable(registrationYear)).click();
 
 	}
 
+	/**
+	 * Inputs name in contact form 
+	 */
 	public void inputName() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		wait.until(ExpectedConditions.visibilityOf(nameInput)).sendKeys(buyerName);
 
 	}
-
+	
+	/**
+	 * Inputs email in contact form, writes error message to excel. 
+	 */
 	public void inputEmail() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 		wait.until(ExpectedConditions.visibilityOf(emailInput)).sendKeys(invalidEmail);
@@ -149,27 +177,30 @@ public class CarInsurancePage extends BaseClass {
 		wait.until(ExpectedConditions.visibilityOf(errorMsg));
 
 		String msg = errorMsg.getAttribute("innerHTML");
-
+		System.out.println(msg);
 
 		// write the error message in excel file
 		try {
-			ExcelUtil.selectSheetName("CarInsurance");
+			ExcelUtil.selectSheetName(carSheet);
 			ExcelUtil.createRow(0);
 			ExcelUtil.setCarInsuranceErrorMsg("Error Message for any invalid field");
 			ExcelUtil.createRow(1);
 			ExcelUtil.setCarInsuranceErrorMsg(msg);
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 		try {
 			ExcelUtil.writeExcel();
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Inputs phone number in contact form 
+	 */
 	public void inputPhoneNo() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		wait.until(ExpectedConditions.visibilityOf(phoneInput)).sendKeys(mobileNo);

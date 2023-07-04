@@ -2,24 +2,38 @@ package tests;
 
 import java.lang.reflect.Method;
 
+import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 
 import base.BaseTest;
 import pages.HealthInsurancePage;
 import utils.ExtentReportManager;
+import utils.ScreenshotUtil;
 
 public class HealthInsuranceTests extends BaseTest {
 
 	private HealthInsurancePage healthInsurancePage;
 
 	@BeforeMethod
-	void setPage(Method method) {
+	private void setPage(Method method) {
 		healthInsurancePage = new HealthInsurancePage(driver);
 		createTestWithMethodName(method, browserName);
+
+	}
+
+	@AfterMethod
+	private void takeScreenshots(ITestResult result) {
+
+		ScreenshotUtil sc = new ScreenshotUtil();
+		String loc = sc.getScreenshot(driver, result.getName());
+		test.info("Screenshot", MediaEntityBuilder.createScreenCaptureFromPath(loc).build());
 
 	}
 
@@ -34,6 +48,7 @@ public class HealthInsuranceTests extends BaseTest {
 		} catch (Exception e) {
 //			test.log(Status.FAIL, e.getMessage());
 			test.fail(e);
+			Assert.fail(e.getMessage());
 		}
 
 	}
@@ -42,12 +57,12 @@ public class HealthInsuranceTests extends BaseTest {
 	public void testGetHealthInsuranceList() throws Exception {
 		try {
 			healthInsurancePage.getHealthInsuranceList();
-			test.pass( "Acquired Health Insurance menu items.");
+			test.pass("Acquired Health Insurance menu items.");
 		} catch (Exception e) {
 			test.fail(e);
+			Assert.fail(e.getMessage());
 		}
 
-		
 		// Add assertions or further test steps as needed
 	}
 

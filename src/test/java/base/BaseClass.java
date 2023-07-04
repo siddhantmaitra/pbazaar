@@ -15,8 +15,10 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import utils.CommonMethods;
 import utils.ConfigReader;
 import utils.ExtentReportManager;
+import utils.JsonReader;
 
 public class BaseClass {
 	protected static WebDriver driver;
@@ -24,6 +26,7 @@ public class BaseClass {
 	protected String browserName;
 	protected ExtentReports extent;
 	protected ExtentTest test;
+	protected static CommonMethods cm = new CommonMethods();
 	
 
 	
@@ -33,8 +36,8 @@ public class BaseClass {
 		browserName = browser;
 		if (browser.equalsIgnoreCase("chrome")) {
 
-//			WebDriverManager.chromedriver().setup();
-			System.setProperty("webdriver.chrome.driver", "C:\\Users\\2266897\\Downloads\\chromedriver_win32\\chromedriver.exe");
+			WebDriverManager.chromedriver().setup();
+//			System.setProperty("webdriver.chrome.driver", "C:\\Users\\2266897\\Downloads\\chromedriver_win32\\chromedriver.exe");
 
 //			System.setProperty("webdriver.chrome.driver", "C:\\Users\\2266897\\Documents\\chromedrivers\\chromedriver.exe");
 			driver = new ChromeDriver();
@@ -48,13 +51,13 @@ public class BaseClass {
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-//		driver.get("https://www.policybazaar.com");
 	}
 	
 	@BeforeClass
 	public void initProperties() {
-//		System.out.println(browserName);
 		ConfigReader.property();
+		JsonReader.readData(ConfigReader.prop.getProperty("testData"));
+		
 		
 	}
 	

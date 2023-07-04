@@ -2,21 +2,35 @@ package tests;
 
 import java.lang.reflect.Method;
 
+import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.aventstack.extentreports.MediaEntityBuilder;
+
 import base.BaseTest;
 import pages.CarInsurancePage;
+import utils.ScreenshotUtil;
 
 public class CarInsuranceTests extends BaseTest {
 
 	private CarInsurancePage carInsurancePage;
 
 	@BeforeMethod
-	void setPage(Method method) {
+	private void setPage(Method method) {
 		carInsurancePage = new CarInsurancePage(driver);
 		createTestWithMethodName(method, browserName);
 
+	}
+
+	@AfterMethod
+	private void takeScreenShots(ITestResult result) {
+			ScreenshotUtil sc = new ScreenshotUtil();
+			String loc = sc.getScreenshot(driver, result.getName());
+			test.info("Screenshot", MediaEntityBuilder.createScreenCaptureFromPath(loc).build());
+		
 	}
 
 	@Test(priority = 1)
@@ -26,6 +40,7 @@ public class CarInsuranceTests extends BaseTest {
 			test.pass("visited website sucessfully");
 		} catch (Exception e) {
 			test.fail(e);
+			Assert.fail(e.getMessage());
 		}
 	}
 
@@ -36,6 +51,7 @@ public class CarInsuranceTests extends BaseTest {
 			test.pass("Car Insurance clicked");
 		} catch (Exception e) {
 			test.fail(e);
+			Assert.fail(e.getMessage());
 		}
 	}
 
@@ -46,6 +62,7 @@ public class CarInsuranceTests extends BaseTest {
 			test.pass("Clicked on 'Proceed without car number'");
 		} catch (Exception e) {
 			test.fail(e);
+			Assert.fail(e.getMessage());
 		}
 	}
 
@@ -56,6 +73,7 @@ public class CarInsuranceTests extends BaseTest {
 			test.pass("Selected City");
 		} catch (Exception e) {
 			test.fail(e);
+			Assert.fail(e.getMessage());
 		}
 	}
 
@@ -66,6 +84,7 @@ public class CarInsuranceTests extends BaseTest {
 			test.pass("Selected DL1");
 		} catch (Exception e) {
 			test.fail(e);
+			Assert.fail(e.getMessage());
 		}
 	}
 
@@ -77,6 +96,7 @@ public class CarInsuranceTests extends BaseTest {
 		} catch (Exception e) {
 			test.info("Unable to select car brand");
 			test.fail(e);
+			Assert.fail(e.getMessage());
 		}
 	}
 
@@ -88,6 +108,7 @@ public class CarInsuranceTests extends BaseTest {
 		} catch (Exception e) {
 			test.info("Unable to select car model");
 			test.fail(e);
+			Assert.fail(e.getMessage());
 		}
 	}
 
@@ -99,6 +120,7 @@ public class CarInsuranceTests extends BaseTest {
 		} catch (Exception e) {
 			test.info("Unable to select car fuel type");
 			test.fail(e);
+			Assert.fail(e.getMessage());
 		}
 	}
 
@@ -110,6 +132,7 @@ public class CarInsuranceTests extends BaseTest {
 		} catch (Exception e) {
 			test.info("Unable to select car variant");
 			test.fail(e);
+			Assert.fail(e.getMessage());
 		}
 	}
 
@@ -121,6 +144,7 @@ public class CarInsuranceTests extends BaseTest {
 		} catch (Exception e) {
 			test.info("Unable to select car brand");
 			test.fail(e);
+			Assert.fail(e.getMessage());
 		}
 	}
 
@@ -129,20 +153,19 @@ public class CarInsuranceTests extends BaseTest {
 		try {
 			carInsurancePage.inputName();
 			test.info("Entered name successfully");
-			
+
 			carInsurancePage.inputEmail();
 			test.info("Entered email successfully");
-			
+
 			carInsurancePage.inputPhoneNo();
 			test.info("Entered phone number successfully");
-			
+
 			test.pass("Filled form completely");
 		} catch (Exception e) {
 			test.info("Unable to fill contact form");
 			test.fail(e);
+			Assert.fail(e.getMessage());
 		}
 	}
-
-
 
 }

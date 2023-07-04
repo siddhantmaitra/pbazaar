@@ -25,7 +25,7 @@ public class ExtentReportManager {
 			ExtentSparkReporter htmlReporter = new ExtentSparkReporter(reportName);
 			htmlReporter.config().setDocumentTitle(suiteName + " Test Report");
 			htmlReporter.config().setReportName(suiteName + " Execution Report");
-			htmlReporter.config().setTheme(Theme.STANDARD);
+			htmlReporter.config().setTheme(Theme.DARK);
 
 			extent = new ExtentReports();
 			extent.attachReporter(htmlReporter);

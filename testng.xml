@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="PolicyBazaar Generic Suite" verbose="2">
-    <suite-files>
-        <suite-file path="src/test/resources/testng_chrome.xml" />
-        <suite-file path="src/test/resources/testng_edge.xml" />
-    </suite-files>
+	<suite-files>
+		<suite-file path="src/test/resources/testng_chrome.xml" />
+		<suite-file path="src/test/resources/testng_edge.xml" />
+	</suite-files>
 </suite> <!-- Suite -->
