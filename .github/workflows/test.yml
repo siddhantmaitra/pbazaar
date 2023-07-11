@@ -2,9 +2,9 @@ name: PolicyBazaar automation test suite
 
 on:
   push:
-    branches: [ "actions-test" ]
+    branches: [ "act-debug" ]
   pull_request:
-    branches: [ "actions-test" ]
+    branches: [ "act-debug" ]
   schedule:
     - cron: '30 2 * * *'
 
