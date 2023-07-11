@@ -34,15 +34,17 @@ public class BaseClass {
 	
 	@Parameters("browser")
     @BeforeClass
-	public void initDriver(@Optional("chrome") String browser) {
+	public void initDriver(@Optional("edge") String browser) {
 		browserName = browser;
 		if (browser.equalsIgnoreCase("chrome")) {
 			WebDriverManager.chromedriver().setup();
 			
 			ChromeOptions options = new ChromeOptions();
 			options.addArguments("--headless=new","--no-sandbox","--disable-dev-shm-usage","--window-size=1920,1480");
-			
 			driver = new ChromeDriver(options);
+			
+//			driver = new ChromeDriver();
+			
 		} else if (browser.equalsIgnoreCase("edge")) {
 
 			WebDriverManager.edgedriver().setup();
@@ -50,6 +52,7 @@ public class BaseClass {
 			EdgeOptions options = new EdgeOptions();
 			options.addArguments("--headless=new","--no-sandbox","--disable-dev-shm-usage","--window-size=1920,1480");
 			driver = new EdgeDriver(options);
+//			driver = new EdgeDriver();
 		} else {
 			throw new IllegalArgumentException("Invalid browser name provided!");
 		}

@@ -42,6 +42,9 @@ public class TravelInsurancePage extends BaseClass {
 
 	@FindBy(xpath = "//li[@class=\"ruby-menu-mega shade mr\"]/child::a")
 	private WebElement insuranceDropDown;
+	
+	@FindBy(xpath = "//li[@class=\"ruby-menu-mega shade mr\"]")
+	private WebElement insuranceDropDown02;
 
 	@FindBy(xpath = "//a[contains(text(), 'Student Travel Insurance')]")
 	private WebElement studentTravelInsuranceLink;
@@ -117,6 +120,7 @@ public class TravelInsurancePage extends BaseClass {
 	public void visitPolicyBazaar() {
 
 		driver.get(baseURL);
+		System.out.println("Visited Website successfully");
 
 	}
 
@@ -127,8 +131,8 @@ public class TravelInsurancePage extends BaseClass {
 		Actions action = new Actions(driver);
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		
-		wait.until(ExpectedConditions.visibilityOf(insuranceDropDown));
-		action.moveToElement(insuranceDropDown).build().perform();
+		wait.until(ExpectedConditions.visibilityOf(insuranceDropDown02));
+		action.moveToElement(insuranceDropDown02).build().perform();
 		wait.until(ExpectedConditions.visibilityOf(travelInsuranceLink)).click();
 
 	}
