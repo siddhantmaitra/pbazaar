@@ -40,7 +40,7 @@ public class BaseClass {
 			WebDriverManager.chromedriver().setup();
 			
 			ChromeOptions options = new ChromeOptions();
-			options.addArguments("--headless=new");
+			options.addArguments("--headless=new","--no-sandbox","--disable-dev-shm-usage","--window-size=1920,1480");
 			
 			driver = new ChromeDriver(options);
 		} else if (browser.equalsIgnoreCase("edge")) {
@@ -48,7 +48,7 @@ public class BaseClass {
 			WebDriverManager.edgedriver().setup();
 			
 			EdgeOptions options = new EdgeOptions();
-			options.addArguments("--headless=new");
+			options.addArguments("--headless=new","--no-sandbox","--disable-dev-shm-usage","--window-size=1920,1480");
 			driver = new EdgeDriver(options);
 		} else {
 			throw new IllegalArgumentException("Invalid browser name provided!");
