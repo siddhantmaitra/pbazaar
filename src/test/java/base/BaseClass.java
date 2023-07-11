@@ -3,7 +3,9 @@ package base;
 import java.time.Duration;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
@@ -35,16 +37,19 @@ public class BaseClass {
 	public void initDriver(@Optional("chrome") String browser) {
 		browserName = browser;
 		if (browser.equalsIgnoreCase("chrome")) {
-
 			WebDriverManager.chromedriver().setup();
-//			System.setProperty("webdriver.chrome.driver", "C:\\Users\\2266897\\Downloads\\chromedriver_win32\\chromedriver.exe");
-
-//			System.setProperty("webdriver.chrome.driver", "C:\\Users\\2266897\\Documents\\chromedrivers\\chromedriver.exe");
-			driver = new ChromeDriver();
+			
+			ChromeOptions options = new ChromeOptions();
+			options.addArguments("--headless=new");
+			
+			driver = new ChromeDriver(options);
 		} else if (browser.equalsIgnoreCase("edge")) {
 
 			WebDriverManager.edgedriver().setup();
-			driver = new EdgeDriver();
+			
+			EdgeOptions options = new EdgeOptions();
+			options.addArguments("--headless=new");
+			driver = new EdgeDriver(options);
 		} else {
 			throw new IllegalArgumentException("Invalid browser name provided!");
 		}
