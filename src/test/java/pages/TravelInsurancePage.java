@@ -125,9 +125,10 @@ public class TravelInsurancePage extends BaseClass {
 	 */
 	public void clickTravelInsuranceLink() {
 		Actions action = new Actions(driver);
-		action.moveToElement(insuranceDropDown).build().perform();
-
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		
+		wait.until(ExpectedConditions.visibilityOf(insuranceDropDown));
+		action.moveToElement(insuranceDropDown).build().perform();
 		wait.until(ExpectedConditions.visibilityOf(travelInsuranceLink)).click();
 
 	}
