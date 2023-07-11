@@ -1,0 +1,35 @@
+name: PolicyBazaar automation test suite
+
+on:
+  push:
+    branches: [ "actions-test" ]
+  pull_request:
+    branches: [ "actions-test" ]
+  schedule:
+    - cron: '30 2 * * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: maven
+    - name: Test with Maven
+      run: mvn test
+    - name: Deploy to Vercel
+      run: |
+        npm i -g vercel
+        echo "$VERCEL_TOKEN" | vercel login --with-token
+        cd testOutput
+        LATEST_HTML_FILE=$(ls -Art *.html | tail -n 1)
+        vercel deploy --name my-project --prod $LATEST_HTML_FILE
+      env:
+        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
