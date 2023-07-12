@@ -18,9 +18,9 @@ public class ExtentReportManager {
 			} else {
 				suiteName = suite.getName();
 			}
-			
+			String name = suiteName.replaceAll("[_\\s]", "");
 //			System.out.println(suiteName);
-			String reportName = "testOutput/ExtentReport_" + suiteName + ".html";
+			String reportName = "testOutput/ExtentReport_" + name + ".html";
 
 			ExtentSparkReporter htmlReporter = new ExtentSparkReporter(reportName);
 			htmlReporter.config().setDocumentTitle(suiteName + " Test Report");
