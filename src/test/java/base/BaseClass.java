@@ -8,6 +8,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
@@ -27,7 +28,6 @@ public class BaseClass {
 	protected ExtentReports extent;
 	protected ExtentTest test;
 	protected static CommonMethods cm = new CommonMethods();
-	
 
 	
 	@Parameters("browser")
@@ -36,14 +36,16 @@ public class BaseClass {
 		browserName = browser;
 		if (browser.equalsIgnoreCase("chrome")) {
 
-			WebDriverManager.chromedriver().setup();
+//			WebDriverManager.chromedriver().setup();
 //			System.setProperty("webdriver.chrome.driver", "C:\\Users\\2266897\\Downloads\\chromedriver_win32\\chromedriver.exe");
 
-//			System.setProperty("webdriver.chrome.driver", "C:\\Users\\2266897\\Documents\\chromedrivers\\chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", "C:\\Users\\2266897\\Downloads\\chromedrivers\\chromedriver.exe");
 			driver = new ChromeDriver();
 		} else if (browser.equalsIgnoreCase("edge")) {
 
-			WebDriverManager.edgedriver().setup();
+//			WebDriverManager.edgedriver().setup();
+			System.setProperty("webdriver.edge.driver", "C:\\Users\\2266897\\Downloads\\edgedrivers\\msedgedriver.exe");
+
 			driver = new EdgeDriver();
 		} else {
 			throw new IllegalArgumentException("Invalid browser name provided!");
@@ -51,9 +53,10 @@ public class BaseClass {
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.get(ConfigReader.prop.getProperty("baseURL"));
 	}
 	
-	@BeforeClass
+	@BeforeSuite
 	public void initProperties() {
 		ConfigReader.property();
 		JsonReader.readData(ConfigReader.prop.getProperty("testData"));

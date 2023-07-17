@@ -11,6 +11,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import base.BaseClass;
 import utils.ConfigReader;
@@ -22,8 +23,10 @@ public class CarInsurancePage extends BaseClass {
 	final String mobileNo = JsonReader.data.get("mobileNo");
 	final String invalidEmail = JsonReader.data.get("invalidEmail");
 	final String buyerName = JsonReader.data.get("buyerName");
-
 	final String carSheet = ConfigReader.prop.getProperty("carSheet");
+	final String expectedLandingTitle = JsonReader.data.get("landingTitle");
+	final String expectedTitle = JsonReader.data.get("carInsurancePageTitle");
+	final String expectedErrorText = JsonReader.data.get("errorMsg");
 
 	public CarInsurancePage(WebDriver driver) {
 
@@ -73,8 +76,8 @@ public class CarInsurancePage extends BaseClass {
 	private WebElement errorMsg;
 
 	public void visitPolicyBazaar() {
-
-		driver.get("https://www.policybazaar.com");
+		String actualTitle = driver.getTitle();
+		Assert.assertEquals(actualTitle, expectedLandingTitle);
 	}
 
 	public void clickCarInsuranceLink() {
@@ -84,6 +87,8 @@ public class CarInsurancePage extends BaseClass {
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.until(ExpectedConditions.visibilityOf(carInsuranceLink)).click();
+		String actualTitle = driver.getTitle();
+		Assert.assertEquals(actualTitle, expectedTitle);
 
 	}
 
@@ -119,7 +124,7 @@ public class CarInsurancePage extends BaseClass {
 		wait.until(ExpectedConditions.elementToBeClickable(carBrand)).click();
 
 	}
-	
+
 	/**
 	 * Selects car model
 	 */
@@ -128,7 +133,7 @@ public class CarInsurancePage extends BaseClass {
 		wait.until(ExpectedConditions.elementToBeClickable(carModel)).click();
 
 	}
-	
+
 	/**
 	 * Selects fuel type for the car
 	 */
@@ -137,7 +142,7 @@ public class CarInsurancePage extends BaseClass {
 		wait.until(ExpectedConditions.elementToBeClickable(fuelType)).click();
 
 	}
-	
+
 	/**
 	 * Selects car variant
 	 */
@@ -148,9 +153,9 @@ public class CarInsurancePage extends BaseClass {
 		cm.pauseForSecs(2);
 
 	}
-	
+
 	/**
-	 * Selects registration year of the car 
+	 * Selects registration year of the car
 	 */
 	public void selectRegistrationYear() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
@@ -159,16 +164,16 @@ public class CarInsurancePage extends BaseClass {
 	}
 
 	/**
-	 * Inputs name in contact form 
+	 * Inputs name in contact form
 	 */
 	public void inputName() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		wait.until(ExpectedConditions.visibilityOf(nameInput)).sendKeys(buyerName);
 
 	}
-	
+
 	/**
-	 * Inputs email in contact form, writes error message to excel. 
+	 * Inputs email in contact form, writes error message to excel.
 	 */
 	public void inputEmail() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
@@ -177,15 +182,16 @@ public class CarInsurancePage extends BaseClass {
 		wait.until(ExpectedConditions.visibilityOf(errorMsg));
 
 		String msg = errorMsg.getAttribute("innerHTML");
+		Assert.assertEquals(msg, expectedErrorText);
 		System.out.println(msg);
 
 		// write the error message in excel file
 		try {
 			ExcelUtil.selectSheetName(carSheet);
 			ExcelUtil.createRow(0);
-			ExcelUtil.setCarInsuranceErrorMsg("Error Message for any invalid field");
+			ExcelUtil.setExcelCell("Error Message for any invalid field");
 			ExcelUtil.createRow(1);
-			ExcelUtil.setCarInsuranceErrorMsg(msg);
+			ExcelUtil.setExcelCell(msg);
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -199,7 +205,7 @@ public class CarInsurancePage extends BaseClass {
 	}
 
 	/**
-	 * Inputs phone number in contact form 
+	 * Inputs phone number in contact form
 	 */
 	public void inputPhoneNo() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));

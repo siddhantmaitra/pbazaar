@@ -13,6 +13,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import base.BaseClass;
 import utils.ConfigReader;
@@ -26,14 +27,17 @@ public class TravelInsurancePage extends BaseClass {
 		PageFactory.initElements(driver, this);
 
 	}
-	
+
 	// data initialization
 	final String destination = JsonReader.data.get("destination");
-	final String baseURL = ConfigReader.prop.getProperty("baseURL");
+//	final String baseURL = ConfigReader.prop.getProperty("baseURL");
 	final String traveller01Age = String.valueOf(JsonReader.data.get("travellerAge01"));
 	final String traveller02Age = String.valueOf(JsonReader.data.get("travellerAge02"));
 	final String mobileNo = JsonReader.data.get("mobileNo");
 	final String travelSheet = ConfigReader.prop.getProperty("travelSheet");
+	final String expectedLandingTitle = JsonReader.data.get("landingTitle");
+	final String studentTravelInsurancePageTitle = JsonReader.data.get("studentTravelInsurancePageTitle");
+	final String travelInsurancePageTitle = JsonReader.data.get("travelInsurancePageTitle");
 
 	private JavascriptExecutor js;
 
@@ -108,15 +112,12 @@ public class TravelInsurancePage extends BaseClass {
 	@FindBy(xpath = "(//div[@class='grid'])[1]")
 	private WebElement banner;
 
-	
-	
-	
 	/***
 	 * Opens the policybazaar website
 	 */
 	public void visitPolicyBazaar() {
-
-		driver.get(baseURL);
+		String actualTitle = driver.getTitle();
+		Assert.assertEquals(actualTitle, expectedLandingTitle);
 
 	}
 
@@ -129,6 +130,8 @@ public class TravelInsurancePage extends BaseClass {
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.until(ExpectedConditions.visibilityOf(travelInsuranceLink)).click();
+		String actualTitle = driver.getTitle();
+		Assert.assertEquals(actualTitle, travelInsurancePageTitle);
 
 	}
 
@@ -136,22 +139,25 @@ public class TravelInsurancePage extends BaseClass {
 	 * Click on student travel insurance link
 	 */
 	public void clickOnStudentTravelInsurance() {
-		
+
 		js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].scrollIntoView(true);", scrollElement);
 
 		// necessary or scroll gets interrupted
 		cm.pauseForSecs(4);
-		
+
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.until(ExpectedConditions.elementToBeClickable(bottomDivClose)).click();
-		
+
 		// rescroll to adjust
 		js.executeScript("arguments[0].scrollIntoView(true);", scrollElement);
 		cm.pauseForSecs(2);
-		
+
 		wait.until(ExpectedConditions.elementToBeClickable(studentTravelInsuranceLink));
 		studentTravelInsuranceLink.click();
+
+		String actualTitle = driver.getTitle();
+		Assert.assertEquals(actualTitle, studentTravelInsurancePageTitle);
 	}
 
 	/**
@@ -218,7 +224,7 @@ public class TravelInsurancePage extends BaseClass {
 		applySort.click();
 
 	}
-	
+
 	/**
 	 * Method to print 3 lowest prices to console & excel
 	 */

@@ -4,5 +4,10 @@
 	"travellerAge02": 22,
 	"mobileNo": "8335857312",
 	"buyerName": "John Doe",
-	"invalidEmail": "johndoegmailcom"
+	"invalidEmail": "johndoegmailcom",
+	"errorMsg": "Please enter valid email address",
+	"studentTravelInsurancePageTitle": "Student Travel Insurance - Buy Student Overseas Travel Plan Online",
+	"travelInsurancePageTitle": "Travel Insurance - Buy Travel Insurance Policy Online in India 2023",
+	"landingTitle": "Insurance - Compare & Buy Insurance Plans – Health, Term, Life, Car",
+	"carInsurancePageTitle": "Car Insurance Online - Buy/Renew Car Insurance Policy & Save Upto 85%*"
 }

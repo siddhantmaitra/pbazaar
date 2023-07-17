@@ -42,7 +42,7 @@ public class ExcelUtil {
 		row.createCell(1).setCellValue(price);
 	}
 
-	public static void setCarInsuranceErrorMsg(String msg) {
+	public static void setExcelCell(String msg) {
 		row.createCell(0).setCellValue(msg);
 	}
 

@@ -8,39 +8,39 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 import base.BaseClass;
 import utils.ConfigReader;
 import utils.ExcelUtil;
-
+import utils.JsonReader;
 
 public class HealthInsurancePage extends BaseClass {
 	final String healthSheet = ConfigReader.prop.getProperty("healthSheet");
-	
+	final String expectedLandingTitle = JsonReader.data.get("landingTitle");
+
 	public HealthInsurancePage(WebDriver driver) {
-//		this.driver = driver;
 		PageFactory.initElements(driver, this);
 
 	}
-	
-	
+
 	@FindBy(xpath = "//li[@class=\"ruby-menu-mega shade mr\"]/child::a")
 	private WebElement insuranceDropDown;
-	
+
 	@FindBy(xpath = "//a[@class='headlink' and contains(text(),'Health Insurance')]/parent::h3/following-sibling::ul/li/a/span")
 	private List<WebElement> healthInsuranceList;
-	
-	public void visitPolicyBazaar() throws InterruptedException {
-		driver.get("https://www.policybazaar.com");
-//		Thread.sleep(6000);
+
+	public void visitPolicyBazaar() {
+		String actualTitle = driver.getTitle();
+		Assert.assertEquals(actualTitle, expectedLandingTitle);
 	}
 
 	public void getHealthInsuranceList() {
 		try {
-		Actions action = new Actions(driver);
-		action.moveToElement(insuranceDropDown).build().perform();
-		
-		}catch( Exception e ) {
+			Actions action = new Actions(driver);
+			action.moveToElement(insuranceDropDown).build().perform();
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		try {
@@ -49,15 +49,13 @@ public class HealthInsurancePage extends BaseClass {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
-		for(int i = 0; i<healthInsuranceList.size(); i++) {
+		for (int i = 0; i < healthInsuranceList.size(); i++) {
 			String msg = healthInsuranceList.get(i).getText();
 			System.out.println(msg);
 			ExcelUtil.createRow(i);
-			ExcelUtil.setCarInsuranceErrorMsg(msg);
-			
-			
+			ExcelUtil.setExcelCell(msg);
+
 		}
 		try {
 			ExcelUtil.writeExcel();
@@ -67,5 +65,5 @@ public class HealthInsurancePage extends BaseClass {
 		}
 
 	}
-	
+
 }
