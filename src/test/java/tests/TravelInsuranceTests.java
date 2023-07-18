@@ -28,12 +28,18 @@ public class TravelInsuranceTests extends BaseTest {
 	private void takeScreenshots(ITestResult result) {
 		ScreenshotUtil sc = new ScreenshotUtil();
 		String loc = sc.getScreenshot(driver, result.getName());
-		test.info("Screenshot", MediaEntityBuilder.createScreenCaptureFromPath(loc).build());
+		test.info("Method: " + result.getName(), MediaEntityBuilder.createScreenCaptureFromPath(loc).build());
 	}
 
 	@Test(priority = 1)
 	public void testVisitPolicyBazaar() {
-		travelInsurance.visitPolicyBazaar();
+		try {
+			travelInsurance.visitPolicyBazaar();
+			test.pass("Visited website successfully");
+		} catch (Exception e) {
+			e.printStackTrace();
+			test.fail(e);
+		}
 	}
 
 	@Test(priority = 2, dependsOnMethods = { "testVisitPolicyBazaar" })
@@ -50,7 +56,7 @@ public class TravelInsuranceTests extends BaseTest {
 	}
 
 	@Test(priority = 3, dependsOnMethods = { "testClickTravelInsuranceLink" })
-	public void testClickStudentTravelInsuranceLink() throws InterruptedException {
+	public void testClickStudentTravelInsuranceLink() {
 		try {
 			travelInsurance.clickOnStudentTravelInsurance();
 			test.pass("Successfully clicked Student Travel Insurance");
@@ -135,7 +141,7 @@ public class TravelInsuranceTests extends BaseTest {
 	}
 
 	@Test(priority = 10)
-	public void printLowestPrices() throws Exception {
+	public void printLowestPrices() {
 		try {
 			travelInsurance.getLowestPrices();
 			test.pass("Printed 3 lowest prices to excel");

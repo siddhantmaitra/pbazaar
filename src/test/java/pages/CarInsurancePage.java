@@ -1,6 +1,5 @@
 package pages;
 
-import java.io.IOException;
 import java.time.Duration;
 
 import org.openqa.selenium.Keys;
@@ -187,19 +186,9 @@ public class CarInsurancePage extends BaseClass {
 
 		// write the error message in excel file
 		try {
-			ExcelUtil.selectSheetName(carSheet);
-			ExcelUtil.createRow(0);
-			ExcelUtil.setExcelCell("Error Message for any invalid field");
-			ExcelUtil.createRow(1);
-			ExcelUtil.setExcelCell(msg);
+			ExcelUtil.writeToExcel(carSheet, "Captured Error Message:", 0, 0);
+			ExcelUtil.writeToExcel(carSheet, msg, 1, 0);
 		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-		try {
-			ExcelUtil.writeExcel();
-		} catch (IOException e) {
-
 			e.printStackTrace();
 		}
 	}

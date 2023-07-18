@@ -19,7 +19,7 @@ public class HealthInsurancePage extends BaseClass {
 	final String healthSheet = ConfigReader.prop.getProperty("healthSheet");
 	final String expectedLandingTitle = JsonReader.data.get("landingTitle");
 
-	public HealthInsurancePage(WebDriver driver) {
+	public HealthInsurancePage() {
 		PageFactory.initElements(driver, this);
 
 	}
@@ -36,32 +36,25 @@ public class HealthInsurancePage extends BaseClass {
 	}
 
 	public void getHealthInsuranceList() {
-		try {
-			Actions action = new Actions(driver);
-			action.moveToElement(insuranceDropDown).build().perform();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Actions action = new Actions(driver);
+		action.moveToElement(insuranceDropDown).build().perform();
+
 		try {
-			ExcelUtil.selectSheetName(healthSheet);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			ExcelUtil.writeToExcel(healthSheet, "Available Health Insurances:", 0, 0);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		for (int i = 0; i < healthInsuranceList.size(); i++) {
 			String msg = healthInsuranceList.get(i).getText();
-			System.out.println(msg);
-			ExcelUtil.createRow(i);
-			ExcelUtil.setExcelCell(msg);
 
-		}
-		try {
-			ExcelUtil.writeExcel();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(msg);
+			try {
+				ExcelUtil.writeToExcel(healthSheet, msg, i + 1, 0);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

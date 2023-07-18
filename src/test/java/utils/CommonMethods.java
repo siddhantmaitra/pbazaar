@@ -8,27 +8,6 @@ import org.openqa.selenium.support.ui.Select;
 
 public class CommonMethods {
 
-	public void changeToLatestTab(WebDriver driver) {
-		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
-		driver.switchTo().window(tabs.get(tabs.size() - 1));
-	}
-
-	public void printList(Iterable<?> list) {
-		System.out.println("PRINTING A  GENERAL LIST:-");
-		for (Object element : list) {
-			System.out.println(element);
-		}
-	}
-
-	public void printDateList(Iterable<WebElement> list, String listType) {
-		System.out.println("PRINTING A '" + listType + "' LIST:-");
-		for (WebElement element : list) {
-			System.out.println(element.getText());
-
-		}
-	}
-	
-	
 	/**
 	 * Thread.sleep abstracted away to avoid writing try-catch everywhere
 	 */
@@ -48,4 +27,8 @@ public class CommonMethods {
 		dropdown.selectByValue(optionValue);
 	}
 
+	public void changeToLatestTab(WebDriver driver) {
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(tabs.size() - 1));
+	}
 }

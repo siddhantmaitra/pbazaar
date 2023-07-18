@@ -23,7 +23,6 @@ import utils.JsonReader;
 
 public class BaseClass {
 	protected static WebDriver driver;
-//	protected String destination;
 	protected String browserName;
 	protected ExtentReports extent;
 	protected ExtentTest test;
@@ -35,21 +34,21 @@ public class BaseClass {
 	public void initDriver(@Optional("chrome") String browser) {
 		browserName = browser;
 		if (browser.equalsIgnoreCase("chrome")) {
-
-//			WebDriverManager.chromedriver().setup();
-//			System.setProperty("webdriver.chrome.driver", "C:\\Users\\2266897\\Downloads\\chromedriver_win32\\chromedriver.exe");
-
-			System.setProperty("webdriver.chrome.driver", "C:\\Users\\2266897\\Downloads\\chromedrivers\\chromedriver.exe");
+			WebDriverManager.chromedriver().setup();
+//			System.setProperty("webdriver.chrome.driver", "C:\\Users\\2266897\\Downloads\\chromedrivers\\chromedriver.exe");
+			
 			driver = new ChromeDriver();
+			
 		} else if (browser.equalsIgnoreCase("edge")) {
-
-//			WebDriverManager.edgedriver().setup();
-			System.setProperty("webdriver.edge.driver", "C:\\Users\\2266897\\Downloads\\edgedrivers\\msedgedriver.exe");
+			WebDriverManager.edgedriver().setup();
+//			System.setProperty("webdriver.edge.driver", "C:\\Users\\2266897\\Downloads\\edgedrivers\\msedgedriver.exe");
 
 			driver = new EdgeDriver();
+			
 		} else {
 			throw new IllegalArgumentException("Invalid browser name provided!");
 		}
+		
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
@@ -60,24 +59,17 @@ public class BaseClass {
 	public void initProperties() {
 		ConfigReader.property();
 		JsonReader.readData(ConfigReader.prop.getProperty("testData"));
-		
-		
 	}
 	
 	@BeforeClass
 	public void initExtentReport(ITestContext ctx) {
 		ExtentReportManager.getInstance(ctx);
-		
 	}
 	
 	
 	@AfterClass
     public void tearDown() {
-		
 		driver.quit();
-//		if (driver != null) {
-//            driver.quit();
-//        }
     }
 	
 	@AfterSuite

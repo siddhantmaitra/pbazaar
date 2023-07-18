@@ -23,7 +23,7 @@ public class HealthInsuranceTests extends BaseTest {
 
 	@BeforeMethod
 	private void setPage(Method method) {
-		healthInsurancePage = new HealthInsurancePage(driver);
+		healthInsurancePage = new HealthInsurancePage();
 		createTestWithMethodName(method, browserName);
 
 	}
@@ -43,10 +43,8 @@ public class HealthInsuranceTests extends BaseTest {
 		try {
 			healthInsurancePage.visitPolicyBazaar();
 			test.pass("visited website successfully.");
-//			test.log(Status.PASS, "visited website successfully.");
 
 		} catch (Exception e) {
-//			test.log(Status.FAIL, e.getMessage());
 			test.fail(e);
 			Assert.fail(e.getMessage());
 		}
@@ -63,7 +61,6 @@ public class HealthInsuranceTests extends BaseTest {
 			Assert.fail(e.getMessage());
 		}
 
-		// Add assertions or further test steps as needed
 	}
 
 }

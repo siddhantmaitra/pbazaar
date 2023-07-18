@@ -1,5 +1,6 @@
 package pages;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
@@ -11,7 +12,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
@@ -101,12 +101,12 @@ public class TravelInsurancePage extends BaseClass {
 	@FindBy(xpath = "//button[text()='Apply']")
 	private WebElement applySort;
 
-//	@FindBy(xpath = "//div[@class='quotesCard__planName hideSmall']/p[@class='quotesCard--insurerName']")
-	@FindBy(xpath = "//p[@class='quotesCard--insurerName']")
+//	@FindBy(xpath = "//p[@class='quotesCard--insurerName']")
+	@FindBy(className = "quotesCard--insurerName")
 	private List<WebElement> insuranceVendors;
 
-//	@FindBy(xpath = "//p[@class=\"wrap-space \"]/child::span")
-	@FindBy(xpath = "//span[@class = 'premiumPlanPrice']")
+//	@FindBy(xpath = "//span[@class = 'premiumPlanPrice']")
+	@FindBy(className = "premiumPlanPrice")
 	private List<WebElement> insurancePrices;
 
 	@FindBy(xpath = "(//div[@class='grid'])[1]")
@@ -228,17 +228,23 @@ public class TravelInsurancePage extends BaseClass {
 	/**
 	 * Method to print 3 lowest prices to console & excel
 	 */
-	public void getLowestPrices() throws Exception {
+	public void getLowestPrices() {
+		
+		
+		try {
+			ExcelUtil.writeToExcel(travelSheet, "Student Travel Insurance: Lowest 3", 0, 0);
+			for (int i = 0; i < 3 && i < insuranceVendors.size(); i++) {
+				ExcelUtil.writeToExcel(travelSheet, insuranceVendors.get(i).getText(), i + 1, 0);
+				ExcelUtil.writeToExcel(travelSheet, insurancePrices.get(i).getText(), i + 1, 1);
+				
+				System.out.println("Student Travel Insurance Vendors & Prices: ");
+				System.out.println(insuranceVendors.get(i).getText());
+				System.out.println(insurancePrices.get(i).getText());
+			}
 
-		ExcelUtil.selectSheetName(travelSheet);
-
-		for (int i = 0; i < 3 && i < insuranceVendors.size(); i++) {
-			ExcelUtil.createRow(i);
-			ExcelUtil.setValue(insuranceVendors.get(i).getText(), insurancePrices.get(i).getText());
-			System.out.println(insuranceVendors.get(i).getText());
-			System.out.println(insurancePrices.get(i).getText());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		ExcelUtil.writeExcel();
 	}
 
 }
